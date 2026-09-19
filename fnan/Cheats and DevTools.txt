@@ -1,0 +1,61 @@
+FNAN DEV CONSOLE COMMANDS
+=========================
+
+== NIGHTS ==
+game.state.currentNight = 1; game.initGame();   // Start Night 1
+game.state.currentNight = 2; game.initGame();   // Start Night 2
+game.state.currentNight = 3; game.initGame();   // Start Night 3
+game.state.currentNight = 4; game.initGame();   // Start Night 4
+game.state.currentNight = 5; game.initGame();   // Start Night 5
+game.state.currentNight = 6; game.initGame();   // Start Night 6 (Nash's Special Night)
+game.state.currentNight = 7; game.state.customNight = true; game.initGame();  // Start Custom Night
+
+== WIN / LOSE ==
+game.winNight();       // Win current night
+game.oxygenOut();      // Instantly die / lose current night
+
+== UNLOCK ==
+localStorage.setItem('night6Unlocked', 'true'); game.updateContinueButton();   // Unlock Nash's Special Night button
+localStorage.setItem('night6Completed', 'true'); game.updateContinueButton();  // Unlock Custom Night button
+
+== EASTER EGGS ==
+game.showGoldenStephen();   // Trigger Ed Bensinger
+game.resetCodyEasterEgg()  // resets so it can trigger again naturally
+game.forceCodyEasterEgg()  // triggers it immediately right now
+
+== ENEMY TELEPORT ==
+game.enemyAI.epstein.currentLocation = 'cam1';   // Teleport Nash to a cam (replace cam1 with any cam)
+game.enemyAI.trump.currentLocation = 'cam1';     // Teleport Nick to a cam
+game.enemyAI.hawking.active = true;              // Activate Jaxson
+
+== FREEZE ALL AI ==
+clearTimeout(game.enemyAI.epstein.moveTimer);
+clearTimeout(game.enemyAI.trump.moveTimer);
+clearTimeout(game.enemyAI.hawking.timer);
+clearTimeout(game.enemyAI.hawking.attackTimer);
+game.enemyAI.epstein.moveTimer = null;
+game.enemyAI.trump.moveTimer = null;
+game.enemyAI.hawking.timer = null;
+game.enemyAI.hawking.attackTimer = null;
+
+== MAKE ENEMIES FOLLOW CURRENT CAM ==
+// Save ID to stop it later
+let followInterval = setInterval(() => {
+    const cam = game.state.currentCam;
+    game.enemyAI.epstein.currentLocation = cam;
+    game.enemyAI.trump.currentLocation = cam;
+}, 500);
+
+// Stop following
+clearInterval(followInterval);
+
+== FORCE NICK TO SHOW ON CAM ==
+game.enemyAI.currentTrumpConfig = game.enemyAI.trumpConfig[2];
+game.enemyAI.trump.hasSpawned = true;
+game.enemyAI.trump.isCrawling = false;
+game.enemyAI.trump.currentLocation = 'cam1';
+game.camera.updateCharacterDisplay();
+
+== MISC ==
+game.camera.updateCharacterDisplay();   // Force camera display to refresh
+game.state.currentCam                   // Check which cam you're currently on

@@ -1,0 +1,645 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="apple-touch-icon" href="assets/images/ios.png">
+    <meta name="apple-mobile-web-app-title" content="Five Nights at Nash's">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Five Nights At Nash's</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="preloader">
+        <div id="title-cover-bar"></div>
+        <div class="preloader-content">
+            <div class="preloader-logo">FIVE NIGHTS<br>AT NASH'S</div>
+            <div class="preloader-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <div class="preloader-text">LOADING<span class="loading-dots">...</span></div>
+            <div class="preloader-progress">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="preloader-percentage" id="preloader-percentage">0%</div>
+        </div>
+    </div>
+
+    <div id="game-container">
+
+        <div id="game-screen">
+            <img id="current-scene" src="" alt="" style="display: none;">
+
+
+            <div id="hotspots"></div>
+
+
+            <div id="ui-overlay">
+
+                <div id="top-left-ui">
+                    <div id="time-display"><span id="time-value">12 AM</span></div>
+                    <div id="night-display">NIGHT <span id="night-value">1</span></div>
+                </div>
+
+
+                <div id="bottom-right-ui">
+                    <div id="oxygen-display">
+                        <img src="assets/images/fa3.png" alt="Vent" class="vent-icon">
+                        <span id="power-value">100</span><span class="percent-sign">%</span><span
+                            class="oxygen-unit">O<sub>2</sub></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="camera-panel" class="hidden">
+            <div id="current-cam-label">CAM 11</div>
+            <div id="camera-error-label">ERR</div>
+
+            <div id="character-overlay"></div>
+            <div id="camera-grid"></div>
+            <button id="shock-hawking-btn">ELECTROCUTE</button>
+            <button id="play-sound-btn">PLAY SOUND</button>
+
+            <video id="camera-static-video" loop muted playsinline>
+                <source src="assets/vedio/202512191935.webm" type="video/webm">
+            </video>
+        </div>
+
+
+        <div id="cutscene" class="hidden">
+            <img src="assets/images/cutscene.png" alt="Cutscene">
+            <div class="cutscene-hint">Click to continue...</div>
+        </div>
+
+
+        <div id="night-intro" class="hidden">
+            <div id="night-intro-text">NIGHT 1</div>
+        </div>
+
+
+        <div id="main-menu">
+            <img id="star-icon" class="hidden" src="assets/images/star.png" alt="Star">
+            <img id="star-icon-2" class="hidden" src="assets/images/star.png" alt="Star 2">
+            <img id="star-icon-3" class="hidden" src="assets/images/star.png" alt="Star 3">
+
+            <h1>FIVE<br>NIGHTS<br>AT<br>NASH'S</h1>
+            <button id="start-game">NEW GAME</button>
+            <button id="continue-game" class="hidden">CONTINUE</button>
+            <button id="special-night-btn" class="hidden">NASH'S SPECIAL NIGHT</button>
+            <button id="custom-night-btn" class="hidden">CUSTOM NIGHT</button>
+            <button id="credits-btn">CREDITS</button>
+            <button id="to-do">TO DO</button>
+            <div class="copyright">© xXJ0NXx - Jon Stearns</div>
+            <div class="version">Pre-Release 0.9.2</div>
+        </div>
+
+
+        <div id="credits-page" class="hidden">
+            <canvas id="credits-static-canvas"></canvas>
+            <audio id="credits-music" loop>
+                <source src="assets/sounds/music3.ogg" type="audio/ogg">
+            </audio>
+            <div id="credits-content">
+                <h1 class="credits-title">CREDITS</h1>
+                <div class="credits-scroll">
+                    <div class="credits-section">
+                        <div class="credits-role">GAME CREATOR &amp; PROGRAMMER</div>
+                        <div class="credits-name">Jon Stearns</div>
+                    </div>
+                    <div class="credits-section">
+                        <div class="credits-role">GAME DESIGN</div>
+                        <div class="credits-name">Jon Stearns</div>
+                    </div>
+                    <div class="credits-section">
+                        <div class="credits-role">IMGS &amp; ASSETS</div>
+                        <div class="credits-name">Jon Stearns</div>
+                    </div>
+                    <div class="credits-section">
+                        <div class="credits-role">ACTORS</div>
+                        <div class="credits-name">Nash Dolin</div>
+                        <div class="credits-name">Nick Wickman</div>
+                        <div class="credits-name">Jaxson Padyjasek</div>
+                        <div class="credits-name">Dylan Roberts</div>
+                        <div class="credits-name">Edward Bensinger</div>
+                        <div class="credits-name">Cody Cudahy</div>
+                    </div>
+                    <div class="credits-section">
+                        <div class="credits-role">MISCELLANEOUS SOUNDS</div>
+                        <div class="credits-name">Jon Stearns</div>
+                        <div class="credits-name">Cody Cudahy</div>
+                    </div>
+                    <div class="credits-section">
+                        <div class="credits-role">SPECIAL THANKS TO</div>
+                        <div class="credits-name">Evan Productions</div>
+                        <div class="credits-name">------------------------------------</div>
+                        <div class="credits-name">For Making Five Nights At Epstein's</div>
+                    </div>
+                    <div class="credits-footer">
+                        © xXJ0NXx — Jon Stearns<br>
+                        <span class="credits-version">FIVE NIGHTS AT NASH'S &nbsp;·&nbsp; Pre-Release 0.9.2</span>
+                    </div>
+                </div>
+            </div>
+            <button id="credits-back-btn">← BACK</button>
+        </div>
+        <div id="to-do-page" class="hidden">
+            <canvas id="todo-static-canvas"></canvas>
+            <audio id="todo-music" loop>
+                <source src="assets/sounds/music3.ogg" type="audio/ogg">
+            </audio>
+            <div id="todo-content">
+                <h1 class="credits-title">TO DO</h1>
+                <div class="credits-scroll">
+                    <div class="credits-section">
+                        <div class="credits-role">CAM'S</div>
+                        <div class="credits-name">Fix Nash's eyes on night 6</div>
+                    </div>
+                    <div class="credits-section">
+                        <div class="credits-role">AUDIO</div>
+                        <div class="credits-name">Replace open vent/restart camera's beep</div>
+                    </div>
+
+                </div>
+                    <div class="credits-footer">
+                        © xXJ0NXx — Jon Stearns<br>
+                        <span class="credits-version">FIVE NIGHTS AT NASH'S &nbsp;·&nbsp; Pre-Release 0.9.2</span>
+                    </div>
+                </div>
+                <button id="todo-back-btn">← BACK</button>
+            </div>
+            
+        </div>
+
+        <button id="volume-btn" title="Volume Settings">SOUND SETTINGS</button>
+
+
+        <div id="volume-panel" class="hidden">
+            <h3>VOLUME SETTINGS</h3>
+
+            <div class="volume-item">
+                <label>Master Volume</label>
+                <div class="volume-slider-container">
+                    <input type="range" id="master-volume" min="0" max="100" value="70" />
+                    <span class="volume-percent">70%</span>
+                </div>
+            </div>
+
+            <div class="volume-item">
+                <label>Game Background Music</label>
+                <div class="volume-slider-container">
+                    <input type="range" id="game-bg-volume" min="0" max="100" value="70" />
+                    <span class="volume-percent">70%</span>
+                </div>
+            </div>
+
+            <div class="volume-item">
+                <label>Menu Music</label>
+                <div class="volume-slider-container">
+                    <input type="range" id="menu-music-volume" min="0" max="100" value="70" />
+                    <span class="volume-percent">70%</span>
+                </div>
+            </div>
+
+            <div class="volume-item">
+                <label>Jumpscare Sounds</label>
+                <div class="volume-slider-container">
+                    <input type="range" id="jumpscare-volume" min="0" max="100" value="70" />
+                    <span class="volume-percent">70%</span>
+                </div>
+            </div>
+
+            <div class="volume-item">
+                <label>Nick Vent Crawling</label>
+                <div class="volume-slider-container">
+                    <input type="range" id="vent-crawling-volume" min="0" max="100" value="70" />
+                    <span class="volume-percent">70%</span>
+                </div>
+            </div>
+
+            <button id="close-volume-panel">CLOSE</button>
+        </div>
+
+
+        <div id="custom-night-menu" class="hidden">
+            <h1>CUSTOM NIGHT</h1>
+            <div class="custom-night-controls">
+
+                <div class="ai-control">
+                    <div class="ai-name">NASH</div>
+                    <div class="ai-slider-container">
+                        <button class="ai-btn-minus" data-ai="epstein">-</button>
+                        <input type="range" id="epstein-slider" class="ai-slider" min="0" max="20" value="0">
+                        <button class="ai-btn-plus" data-ai="epstein">+</button>
+                    </div>
+                    <div class="ai-value" id="epstein-value">0</div>
+                </div>
+
+
+                <div class="ai-control">
+                    <div class="ai-name">NICK</div>
+                    <div class="ai-slider-container">
+                        <button class="ai-btn-minus" data-ai="trump">-</button>
+                        <input type="range" id="trump-slider" class="ai-slider" min="0" max="20" value="0">
+                        <button class="ai-btn-plus" data-ai="trump">+</button>
+                    </div>
+                    <div class="ai-value" id="trump-value">0</div>
+                </div>
+
+
+                <div class="ai-control">
+                    <div class="ai-name">JAXSON</div>
+                    <div class="ai-slider-container">
+                        <button class="ai-btn-minus" data-ai="hawking">-</button>
+                        <input type="range" id="hawking-slider" class="ai-slider" min="0" max="20" value="0">
+                        <button class="ai-btn-plus" data-ai="hawking">+</button>
+                    </div>
+                    <div class="ai-value" id="hawking-value">0</div>
+                </div>
+            </div>
+
+            <div class="custom-night-buttons">
+                <button id="start-custom-night">START</button>
+                <button id="back-to-menu">BACK</button>
+            </div>
+        </div>
+
+
+        <canvas id="static-canvas"></canvas>
+
+
+        <audio id="menu-music" loop>
+            <source src="assets/sounds/music3.ogg" type="audio/ogg">
+        </audio>
+
+
+        <div id="game-over" class="hidden">
+
+            <video id="game-over-static" loop muted playsinline autoplay>
+                <source src="assets/vedio/202512191935.webm" type="video/webm">
+            </video>
+            <div id="game-over-content">
+                <h2 id="game-over-text"></h2>
+                <p id="game-over-subtitle" class="hidden"></p>
+                <button id="restart">Restart</button>
+                <button id="main-menu-btn">Main Menu</button>
+            </div>
+        </div>
+
+
+        <div id="tutorial-overlay" class="hidden">
+            <div id="tutorial-content">
+                <h2>DEFEND YOURSELF AGAINST NASH</h2>
+                <p>
+                    NASH ALWAYS STARTS AT CAM 11. USE THE CAMERA'S AUDIO LURE TO KEEP NASH FAR AWAY FROM YOU.
+                    MAKE SURE THE CAMERA YOU'RE PLAYING THE SOUND IN IS NEXT TO THE CAMERA WHERE NASH IS.
+                    PLAYING SOUND IN ONLY ONE SPOT WILL NOT WORK IF YOU DO IT TWICE OR MORE IN A ROW.
+                    USING THE AUDIO LURE TOO MUCH WILL LEAD TO THE CAMERAS BREAKING.
+                    TO FIX THEM HEAD TO THE CONTROL PANEL AND RESTART THE CAMERAS LIKE YOU JUST DID.
+                    NASH DOES NOT ATTACK THROUGH THE VENTS SO DON'T BOTHER CLOSING THEM FOR THIS NIGHT.
+                </p>
+                <button id="tutorial-got-it">GOT IT</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/GameState.js"></script>
+    <script src="js/AssetManager.js"></script>
+    <script src="js/UIManager.js"></script>
+    <script src="js/CameraSystem.js"></script>
+    <script src="js/EnemyAI.js"></script>
+    <script src="js/InputHandler.js"></script>
+    <script src="js/StaticNoise.js"></script>
+    <script src="js/ScaryFaceFlicker.js"></script>
+    <script src="js/Game.js"></script>
+    <script src="js/main.js"></script>
+
+    <style>
+        /* ── Credits Button on Main Menu ── */
+        #credits-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.55);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            padding: 6px 14px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: color 0.2s, border-color 0.2s;
+            font-family: inherit;
+        }
+        #credits-btn:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.6);
+        }
+             #to-do {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.55);
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            padding: 6px 14px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: color 0.2s, border-color 0.2s;
+            font-family: inherit;
+        }
+        #to-do:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.6);
+        }
+
+        /* ── Credits Page ── */
+        #credits-page {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9000;
+            overflow: hidden;
+        }
+        #credits-page.hidden { display: none; }
+
+        #credits-static-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.07;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #credits-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: #fff;
+            width: 100%;
+            max-width: 480px;
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 80vh;
+        }
+
+        .credits-title {
+            font-family: inherit;
+            font-size: clamp(1.6rem, 5vw, 2.4rem);
+            letter-spacing: 0.3em;
+            margin-bottom: 32px;
+            color: #fff;
+            text-shadow: 0 0 18px rgba(255,50,50,0.7), 0 0 40px rgba(255,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .credits-scroll {
+            overflow-y: auto;
+            flex: 1;
+            width: 100%;
+            padding-bottom: 24px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.2) transparent;
+        }
+        .credits-scroll::-webkit-scrollbar { width: 4px; }
+        .credits-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+        .credits-section {
+            margin-bottom: 32px;
+            animation: creditsFlicker 8s infinite;
+        }
+        .credits-section:nth-child(even) { animation-delay: 1.3s; }
+
+        .credits-role {
+            font-size: 0.65rem;
+            letter-spacing: 0.22em;
+            color: rgba(255,80,80,0.85);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .credits-name {
+            font-size: clamp(0.95rem, 2.5vw, 1.2rem);
+            letter-spacing: 0.08em;
+            color: #fff;
+        }
+
+        .credits-footer {
+            margin-top: 40px;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.1em;
+            line-height: 2;
+        }
+        .credits-version {
+            color: rgba(255,255,255,0.2);
+            font-size: 0.6rem;
+            letter-spacing: 0.15em;
+        }
+
+        #credits-back-btn {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.6);
+            font-family: inherit;
+            font-size: 0.75rem;
+            letter-spacing: 0.18em;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        #credits-back-btn:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.7);
+        }
+
+        /* ── To-Do Page ── */
+        #to-do-page {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9000;
+            overflow: hidden;
+        }
+        #to-do-page.hidden { display: none; }
+
+        #todo-static-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.07;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #todo-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            color: #fff;
+            width: 100%;
+            max-width: 480px;
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 80vh;
+        }
+
+        #todo-back-btn {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.6);
+            font-family: inherit;
+            font-size: 0.75rem;
+            letter-spacing: 0.18em;
+            padding: 8px 20px;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        #todo-back-btn:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.7);
+        }
+
+        @keyframes creditsFlicker {
+            0%, 95%, 100% { opacity: 1; }
+            96% { opacity: 0.85; }
+            97% { opacity: 1; }
+            98% { opacity: 0.9; }
+        }
+    </style>
+
+    <script>
+        /* ── Autoplay menu music on first user interaction ── */
+        (function () {
+            const menuMusic = document.getElementById('menu-music');
+            if (!menuMusic) return;
+
+            // Try immediately (works if browser allows autoplay)
+            menuMusic.play().catch(() => {
+                // Blocked by browser — wait for first interaction
+                function startMusic() {
+                    menuMusic.play().catch(() => {});
+                    document.removeEventListener('click', startMusic);
+                    document.removeEventListener('keydown', startMusic);
+                    document.removeEventListener('touchstart', startMusic);
+                }
+                document.addEventListener('click', startMusic);
+                document.addEventListener('keydown', startMusic);
+                document.addEventListener('touchstart', startMusic);
+            });
+        })();
+    </script>
+
+    <script>
+        (function () {
+            const mainMenu       = document.getElementById('main-menu');
+            const menuMusic      = document.getElementById('menu-music');
+
+            /* ── Credits ── */
+            const creditsBtn     = document.getElementById('credits-btn');
+            const creditsPage    = document.getElementById('credits-page');
+            const creditsBackBtn = document.getElementById('credits-back-btn');
+            const creditsMusic   = document.getElementById('credits-music');
+            const creditsCanvas  = document.getElementById('credits-static-canvas');
+
+            /* ── To-Do ── */
+            const todoBtn        = document.getElementById('to-do');
+            const todoPage       = document.getElementById('to-do-page');
+            const todoBackBtn    = document.getElementById('todo-back-btn');
+            const todoMusic      = document.getElementById('todo-music');
+            const todoCanvas     = document.getElementById('todo-static-canvas');
+
+            /* ── Static noise helper ── */
+            function runStatic(page, canvas) {
+                if (!page || page.classList.contains('hidden')) return;
+                const ctx = canvas.getContext('2d');
+                canvas.width  = window.innerWidth;
+                canvas.height = window.innerHeight;
+                const w = canvas.width, h = canvas.height;
+                const imgData = ctx.createImageData(w, h);
+                const data = imgData.data;
+                for (let i = 0; i < data.length; i += 4) {
+                    const v = Math.random() * 255 | 0;
+                    data[i] = data[i+1] = data[i+2] = v;
+                    data[i+3] = 255;
+                }
+                ctx.putImageData(imgData, 0, 0);
+                requestAnimationFrame(() => runStatic(page, canvas));
+            }
+
+            /* ── Open / close credits ── */
+            function openCredits() {
+                mainMenu.classList.add('hidden');
+                creditsPage.classList.remove('hidden');
+                if (menuMusic && !menuMusic.paused) menuMusic.pause();
+                if (creditsMusic) {
+                    creditsMusic.volume = menuMusic ? menuMusic.volume : 0.7;
+                    creditsMusic.currentTime = 0;
+                    creditsMusic.play().catch(() => {});
+                }
+                requestAnimationFrame(() => runStatic(creditsPage, creditsCanvas));
+            }
+
+            function closeCredits() {
+                creditsPage.classList.add('hidden');
+                mainMenu.classList.remove('hidden');
+                if (creditsMusic) creditsMusic.pause();
+                if (menuMusic) menuMusic.play().catch(() => {});
+            }
+
+            /* ── Open / close to-do ── */
+            function openTodo() {
+                mainMenu.classList.add('hidden');
+                todoPage.classList.remove('hidden');
+                if (menuMusic && !menuMusic.paused) menuMusic.pause();
+                if (todoMusic) {
+                    todoMusic.volume = menuMusic ? menuMusic.volume : 0.7;
+                    todoMusic.currentTime = 0;
+                    todoMusic.play().catch(() => {});
+                }
+                requestAnimationFrame(() => runStatic(todoPage, todoCanvas));
+            }
+
+            function closeTodo() {
+                todoPage.classList.add('hidden');
+                mainMenu.classList.remove('hidden');
+                if (todoMusic) todoMusic.pause();
+                if (menuMusic) menuMusic.play().catch(() => {});
+            }
+
+            if (creditsBtn)     creditsBtn.addEventListener('click', openCredits);
+            if (creditsBackBtn) creditsBackBtn.addEventListener('click', closeCredits);
+            if (todoBtn)        todoBtn.addEventListener('click', openTodo);
+            if (todoBackBtn)    todoBackBtn.addEventListener('click', closeTodo);
+        })();
+    </script>
+
+</body>
+
+</html>
