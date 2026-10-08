@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Browser</title>
+<style>
+html,body{margin:0;padding:0;background:#000;height:100%;overflow:hidden;}
+/* same iframe rule as Data OS: full-screen, borderless, z-index 3 */
+iframe{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;border:none!important;z-index:3;}
+</style>
+</head>
+<body>
+<script>
+// Same launch as showURLMode's _doLaunchURLMode: create an iframe and set src
+const initialURL = "https://wasm.rip/files/gta3/index.html";
+const iframe = document.createElement("iframe");
+iframe.src = initialURL;
+iframe.addEventListener("load", () => {
+  try {
+    const u = iframe.contentWindow.location.href;
+    console.log("Page loaded: " + u);
+  } catch (e) {
+    console.log("Page loaded (cross-origin)");
+  }
+});
+document.body.appendChild(iframe);
+</script>
+</body>
+</html>
