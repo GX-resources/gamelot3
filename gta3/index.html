@@ -2,28 +2,49 @@
 <html>
 <head>
 <meta charset="utf-8">
+<title>Loading...</title>
+<style>html,body{margin:0;background:#000;height:100%;}</style>
+</head>
+<body>
+<script>
+// The page that will live at the blob URL: same iframe launch as Data OS browsing mode
+const targetURL = "https://wasm.rip/files/gta3/index.html";
+
+const pageHTML = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
 <title>Browser</title>
 <style>
-html,body{margin:0;padding:0;background:#000;height:100%;overflow:hidden;}
-/* same iframe rule as Data OS: full-screen, borderless, z-index 3 */
+html,body{margin:0;padding:0;background:#000;height:100%;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+button{background:transparent;color:#0f0;border:1px solid rgba(0,255,0,0.4);font-family:monospace;font-size:14px;padding:12px 28px;letter-spacing:3px;cursor:pointer;}
+button:hover{background:rgba(0,255,0,0.1);border-color:#0f0;}
 iframe{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;border:none!important;z-index:3;}
 </style>
 </head>
 <body>
+<button id="launch">[ CLICK ]</button>
 <script>
-// Same launch as showURLMode's _doLaunchURLMode: create an iframe and set src
-const initialURL = "https://wasm.rip/files/gta3/index.html";
-const iframe = document.createElement("iframe");
-iframe.src = initialURL;
-iframe.addEventListener("load", () => {
-  try {
-    const u = iframe.contentWindow.location.href;
-    console.log("Page loaded: " + u);
-  } catch (e) {
-    console.log("Page loaded (cross-origin)");
-  }
+document.getElementById("launch").addEventListener("click", () => {
+  document.getElementById("launch").remove();
+  const iframe = document.createElement("iframe");
+  iframe.src = ${JSON.stringify(targetURL)};
+  iframe.addEventListener("load", () => {
+    try { console.log("Page loaded: " + iframe.contentWindow.location.href); }
+    catch (e) { console.log("Page loaded (cross-origin)"); }
+  });
+  document.body.appendChild(iframe);
 });
-document.body.appendChild(iframe);
+<\/script>
+</body>
+</html>`;
+
+// On load: wrap it in a Blob and replace this tab with the blob URL
+window.addEventListener("load", () => {
+  const blob = new Blob([pageHTML], { type: "text/html" });
+  const blobURL = URL.createObjectURL(blob);
+  location.replace(blobURL);
+});
 </script>
 </body>
 </html>
